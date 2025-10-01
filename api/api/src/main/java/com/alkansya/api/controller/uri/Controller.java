@@ -14,17 +14,12 @@ import com.alkansya.api.controller.service.AccountService;
 import com.alkansya.api.model.Account;
 
 @RestController
-@RequestMapping("/accounts") //base URL http://localhost:8008/accounts/index
+@RequestMapping("/accounts")
 public class Controller {
 	private static final Logger logg = LoggerFactory.getLogger(Controller.class);
 
     @Autowired
     private AccountService accountService;
-    
-    @GetMapping("/index")
-    public String getIndex() {
-        return "Index";
-    }
 
     @GetMapping("/get/{accountId}")
     public Optional<Account> getAccount(@PathVariable Long accountId) {
