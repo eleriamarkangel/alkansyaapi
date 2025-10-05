@@ -1,11 +1,7 @@
 package com.alkansya.api.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+//import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 
 @Entity
