@@ -1,5 +1,6 @@
 package com.alkansya.api.controller.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -24,10 +25,21 @@ public class AccountService {
     	logg.info("account id " + accountId);
         return accountRepository.findById(accountId);
     }
+    
+    public List<Account> getAccounts() {
+    	logg.info("ALL accounts...");
+        return accountRepository.findAll();
+    }
 
     public Account createAccount(Account account) {
+    	logg.info("Creating account.."); 
+    	if(isRequestValid(account)){
+    		return accountRepository.save(account);
+    	} else {
+    		return null; // response
+    	}
 //        return accountRepository.save(account);  // Saves the account to the database
-        return null;  // Saves the account to the database
+// Saves the account to the database
     }
 
     public void deleteAccount(Long accountNumber) {
@@ -41,5 +53,14 @@ public class AccountService {
             return new ResponseEntity<>("Add order failed!", HttpStatus.BAD_REQUEST);
         }
 
+    }
+    
+    public boolean isRequestValid(Account acct) {
+//    	logg.info(obj.getClass().getSimpleName()); //Account
+//    	System.out.println(this.getClass().getSimpleName());
+//    	if(!account.getAcctFirstName().equals("")) {
+    		
+//    	}
+    	return false;
     }
 }

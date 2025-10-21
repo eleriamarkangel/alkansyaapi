@@ -1,5 +1,6 @@
 package com.alkansya.api.controller.uri;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -29,6 +30,11 @@ public class Controller {
     @GetMapping("/get/{accountId}")
     public Optional<Account> getAccount(@PathVariable Long accountId) {
 		return accountService.getAccountById(accountId);
+    }
+
+    @GetMapping("/get/accounts")
+    public List<Account> getAccounts() {
+		return accountService.getAccounts();
     }
 
     @PostMapping("/add")
