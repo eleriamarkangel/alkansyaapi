@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.alkansya.api.controller.repositories.AccountRepository;
 import com.alkansya.api.controller.service.AccountService;
-import com.alkansya.api.model.Account;
+import com.alkansya.api.model.BankAccount;
 
 @RestController
 @RequestMapping("/accounts") //base URL http://localhost:8008/accounts/index
@@ -28,17 +28,17 @@ public class Controller {
     }
 
     @GetMapping("/get/{accountId}")
-    public Optional<Account> getAccount(@PathVariable Long accountId) {
+    public Optional<BankAccount> getAccount(@PathVariable Long accountId) {
 		return accountService.getAccountById(accountId);
     }
 
     @GetMapping("/get/accounts")
-    public List<Account> getAccounts() {
+    public List<BankAccount> getAccounts() {
 		return accountService.getAccounts();
     }
 
     @PostMapping("/add")
-    public Account createAccount(@RequestBody Account account) {
+    public BankAccount createAccount(@RequestBody BankAccount account) {
         return accountService.createAccount(account);
     }
 

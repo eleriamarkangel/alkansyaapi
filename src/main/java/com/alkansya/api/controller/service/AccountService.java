@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.alkansya.api.controller.repositories.AccountRepository;
 import com.alkansya.api.controller.uri.Controller;
-import com.alkansya.api.model.Account;
+import com.alkansya.api.model.BankAccount;
 
 @Service
 public class AccountService {
@@ -21,17 +21,17 @@ public class AccountService {
 	@Autowired
     private AccountRepository accountRepository;
 
-    public Optional<Account> getAccountById(Long accountId) {
+    public Optional<BankAccount> getAccountById(Long accountId) {
     	logg.info("account id " + accountId);
         return accountRepository.findById(accountId);
     }
     
-    public List<Account> getAccounts() {
+    public List<BankAccount> getAccounts() {
     	logg.info("ALL accounts...");
         return accountRepository.findAll();
     }
 
-    public Account createAccount(Account account) {
+    public BankAccount createAccount(BankAccount account) {
     	logg.info("Creating account.."); 
     	if(isRequestValid(account)){
     		return accountRepository.save(account);
@@ -55,7 +55,7 @@ public class AccountService {
 
     }
     
-    public boolean isRequestValid(Account acct) {
+    public boolean isRequestValid(BankAccount acct) {
 //    	logg.info(obj.getClass().getSimpleName()); //Account
 //    	System.out.println(this.getClass().getSimpleName());
 //    	if(!account.getAcctFirstName().equals("")) {
