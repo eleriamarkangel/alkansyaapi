@@ -4,7 +4,7 @@ import javax.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "bank_customer")
+@Table(name = "bank_customers")
 @Data
 public class BankCustomer {
 //	customer_number varchar(45) PK 
@@ -40,6 +40,9 @@ public class BankCustomer {
 	
 	@Column(name = "modified_by", nullable = false)
     private String modifiedBy;
+	
+	@Column(name = "is_active", nullable = false)
+    private boolean isActive;
 
 	public String getCustomerNumber() {
 		return customerNumber;
@@ -103,6 +106,14 @@ public class BankCustomer {
 
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	@Override
