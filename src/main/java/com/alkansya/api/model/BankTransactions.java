@@ -6,7 +6,7 @@ import javax.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "bank_customer")
+@Table(name = "bank_transactions")
 @Data
 public class BankTransactions {
 //		txn_id varchar(45) PK 

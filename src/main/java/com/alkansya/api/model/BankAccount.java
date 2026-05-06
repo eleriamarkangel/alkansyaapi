@@ -37,6 +37,9 @@ public class BankAccount {
     @Column(name = "credit_balance", nullable = false)
     private BigDecimal creditBalance;
 
+	@Column(name = "is_active", nullable = false)
+    private boolean isActive;
+	
 	public String getAccountId() {
 		return accountId;
 	}
@@ -83,6 +86,16 @@ public class BankAccount {
 
 	public void setCreditBalance(BigDecimal creditBalance) {
 		this.creditBalance = creditBalance;
+	}
+	
+	
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	@Override
