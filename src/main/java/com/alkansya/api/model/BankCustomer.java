@@ -1,5 +1,7 @@
 package com.alkansya.api.model;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.*;
 import lombok.Data;
 
@@ -7,15 +9,6 @@ import lombok.Data;
 @Table(name = "bank_customers")
 @Data
 public class BankCustomer {
-//	customer_number varchar(45) PK 
-//	cst_firstname varchar(45) 
-//	cst_lastname varchar(45) 
-//	mobile_nbr int 
-//	bday varchar(45) 
-//	date_created date 
-//	date_last_updated date 
-//	modified_by varchar(45)
-	
 	@Id
 	@Column(name = "customer_number", nullable = false)
     private String customerNumber;
@@ -27,22 +20,22 @@ public class BankCustomer {
     private String cLastName;
 	
 	@Column(name = "mobile_nbr", nullable = false)
-    private int mobileNbr;
+    private String mobileNbr;
 	
 	@Column(name = "bday", nullable = false)
     private String birthday;
 	
 	@Column(name = "date_created", nullable = false)
-    private String dateCreated;
+    private LocalDateTime dateCreated;
 	
 	@Column(name = "date_last_updated", nullable = false)
-    private String dateLastUpdated;
+    private LocalDateTime dateLastUpdated;
 	
 	@Column(name = "modified_by", nullable = false)
     private String modifiedBy;
 	
 	@Column(name = "is_active", nullable = false)
-    private boolean isActive;
+    private String isActive;
 
 	public String getCustomerNumber() {
 		return customerNumber;
@@ -68,11 +61,11 @@ public class BankCustomer {
 		this.cLastName = cLastName;
 	}
 
-	public int getMobileNbr() {
+	public String getMobileNbr() {
 		return mobileNbr;
 	}
 
-	public void setMobileNbr(int mobileNbr) {
+	public void setMobileNbr(String mobileNbr) {
 		this.mobileNbr = mobileNbr;
 	}
 
@@ -84,20 +77,20 @@ public class BankCustomer {
 		this.birthday = birthday;
 	}
 
-	public String getDateCreated() {
+	public LocalDateTime getDateCreated() {
 		return dateCreated;
 	}
 
-	public void setDateCreated(String dateCreated) {
-		this.dateCreated = dateCreated;
+	public void setDateCreated(LocalDateTime localDateTime) {
+		this.dateCreated = localDateTime;
 	}
 
-	public String getDateLastUpdated() {
+	public LocalDateTime getDateLastUpdated() {
 		return dateLastUpdated;
 	}
 
-	public void setDateLastUpdated(String dateLastUpdated) {
-		this.dateLastUpdated = dateLastUpdated;
+	public void setDateLastUpdated(LocalDateTime localDateTime) {
+		this.dateLastUpdated = localDateTime;
 	}
 
 	public String getModifiedBy() {
@@ -108,12 +101,12 @@ public class BankCustomer {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public boolean isActive() {
+	public String isActive() {
 		return isActive;
 	}
 
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
+	public void setActive(String isActive) {
+		this.isActive = "Y";
 	}
 
 	@Override

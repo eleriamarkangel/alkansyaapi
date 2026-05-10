@@ -8,5 +8,5 @@ import com.alkansya.api.model.BankAccount;
 import com.alkansya.api.model.BankCustomer;
 
 public interface CustomerRepository extends JpaRepository<BankCustomer, Long> {
-	
+
 }

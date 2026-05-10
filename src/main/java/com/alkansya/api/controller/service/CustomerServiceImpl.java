@@ -1,7 +1,9 @@
 package com.alkansya.api.controller.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,14 +16,17 @@ import com.alkansya.api.controller.repositories.CustomerRepository;
 import com.alkansya.api.controller.uri.CustomerController;
 import com.alkansya.api.model.BankAccount;
 import com.alkansya.api.model.BankCustomer;
+import com.alkansya.api.rules.BusinessRule;
 import com.alkansya.api.templ.ICustomerService;
 
 @Service
 public class CustomerServiceImpl implements ICustomerService{
 	private static final Logger logg = LoggerFactory.getLogger(CustomerController.class);
+	private BusinessRule businessRule;
 	
 	@Autowired
-    private CustomerRepository accountRepository;
+    private CustomerRepository customerRepository;
+	
 
 	@Override
 	public Optional<BankCustomer> getCustomer(long custId) {
@@ -36,9 +41,30 @@ public class CustomerServiceImpl implements ICustomerService{
 	}
 
 	@Override
-	public BankCustomer createCustomer(BankCustomer newAccount) {
-		// TODO Auto-generated method stub
-		return null;
+	public BankCustomer createCustomer(BankCustomer newCustomer){
+		BankCustomer customer = new BankCustomer();
+		if(businessRule.isAlphaValid(newCustomer.getcFirstName()) &&
+			businessRule.isAlphaValid(newCustomer.getcLastName()) &&
+			businessRule.isNumericValid(newCustomer.getMobileNbr()) &&
+			businessRule.isBirthDateValid(newCustomer.getBirthday()) &&
+			businessRule.isAlphaValid(newCustomer.getModifiedBy())
+				) {
+		    customer.setCustomerNumber(UUID.randomUUID().toString().replace("-", ""));
+		    customer.setDateCreated(LocalDateTime.now());
+		    customer.setDateLastUpdated(LocalDateTime.now());
+		    customer.setActive("Y");
+		    //mandated fields
+		    customer.setcFirstName(newCustomer.getcFirstName());
+		    customer.setcLastName(newCustomer.getcLastName());
+		    customer.setMobileNbr(newCustomer.getMobileNbr());
+		    customer.setBirthday(newCustomer.getBirthday());
+		    customer.setModifiedBy(newCustomer.getModifiedBy());
+		    //mandated fields
+		    logg.info("Customer created with id " + customer.getCustomerNumber());
+			return customerRepository.save(customer);
+		} else {
+			return null;
+		}
 	}
 
 	@Override

@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import com.alkansya.api.controller.service.CustomerServiceImpl;
 import com.alkansya.api.model.BankAccount;
+import com.alkansya.api.model.BankCustomer;
 
 @RestController
-@RequestMapping("/customers") //base URL http://localhost:8008/customers/index
+@RequestMapping("/customers") //base URL http://localhost:8008/customers/register
 public class CustomerController {
 	private static final Logger logg = LoggerFactory.getLogger(CustomerController.class);
 
@@ -26,7 +27,10 @@ public class CustomerController {
         return "Index";
     }
 
-    
+    @PostMapping("/register")
+    public BankCustomer createCustomer(@RequestBody BankCustomer newAccount) {
+    	return custService.createCustomer(newAccount);
+	}
     
 //    @GetMapping("/get/{accountId}")
 //    public Optional<BankAccount> getAccount(@PathVariable Long accountId) {
