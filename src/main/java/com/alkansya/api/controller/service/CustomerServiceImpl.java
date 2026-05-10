@@ -22,7 +22,6 @@ import com.alkansya.api.templ.ICustomerService;
 @Service
 public class CustomerServiceImpl implements ICustomerService{
 	private static final Logger logg = LoggerFactory.getLogger(CustomerController.class);
-	private BusinessRule businessRule;
 	
 	@Autowired
     private CustomerRepository customerRepository;
@@ -42,6 +41,7 @@ public class CustomerServiceImpl implements ICustomerService{
 
 	@Override
 	public BankCustomer createCustomer(BankCustomer newCustomer){
+		BusinessRule businessRule = new BusinessRule();
 		BankCustomer customer = new BankCustomer();
 		if(businessRule.isAlphaValid(newCustomer.getcFirstName()) &&
 			businessRule.isAlphaValid(newCustomer.getcLastName()) &&
@@ -63,6 +63,22 @@ public class CustomerServiceImpl implements ICustomerService{
 		    logg.info("Customer created with id " + customer.getCustomerNumber());
 			return customerRepository.save(customer);
 		} else {
+		    logg.error("Invalid field/s. Please double check.");
+		    if (!businessRule.isAlphaValid(newCustomer.getcFirstName())) {
+		    	logg.error("First name must contain letters only");
+		    }
+		    if (!businessRule.isAlphaValid(newCustomer.getcLastName())) {
+		    	logg.error("Last name must contain letters only");
+		    }
+		    if (!businessRule.isNumericValid(newCustomer.getMobileNbr())) {
+		    	logg.error("Mobile number must contain digits only");
+		    }
+		    if (!businessRule.isBirthDateValid(newCustomer.getBirthday())) {
+		    	logg.error("Invalid birthday or underage (min 13 years old)");
+		    }
+		    if (!businessRule.isAlphaValid(newCustomer.getModifiedBy())) {
+		    	logg.error("ModifiedBy must contain letters only");
+		    }
 			return null;
 		}
 	}
