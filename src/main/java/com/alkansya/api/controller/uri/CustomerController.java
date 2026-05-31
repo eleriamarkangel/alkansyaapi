@@ -31,6 +31,21 @@ public class CustomerController {
     public BankCustomer createCustomer(@RequestBody BankCustomer newAccount) {
     	return custService.createCustomer(newAccount);
 	}
+
+    @PutMapping("/editCustomer/{custId}")
+    public BankCustomer editCustomer(@PathVariable String custId, @RequestBody BankCustomer updatingAccount) {
+    	return custService.editCustomer(custId, updatingAccount);
+	}
+    
+    @GetMapping("/getCustomer/{custId}")
+    public Optional<BankCustomer> getCustomerById(@PathVariable String custId) {
+    	return custService.getCustomerById(custId);
+	}
+
+    @GetMapping("/getCustomerAccounts/{custId}")
+    public List<BankAccount> getCustomerAccounts(@PathVariable String custId) {
+    	return custService.getCustomerAccounts(custId);
+	}
     
 //    @GetMapping("/get/{accountId}")
 //    public Optional<BankAccount> getAccount(@PathVariable Long accountId) {

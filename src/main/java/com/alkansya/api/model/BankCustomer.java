@@ -106,7 +106,7 @@ public class BankCustomer {
 	}
 
 	public void setActive(String isActive) {
-		this.isActive = "Y";
+		this.isActive = isActive;
 	}
 
 	@Override
