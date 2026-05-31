@@ -2,6 +2,7 @@ package com.alkansya.api.controller.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -11,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import com.alkansya.api.controller.repositories.BankAccountRepository;
 import com.alkansya.api.controller.repositories.CustomerRepository;
 import com.alkansya.api.controller.uri.CustomerController;
 import com.alkansya.api.model.BankAccount;
@@ -25,18 +28,30 @@ public class CustomerServiceImpl implements ICustomerService{
 	
 	@Autowired
     private CustomerRepository customerRepository;
+
+	@Autowired
+	private BankAccountRepository bankAccountRepository;
 	
 
 	@Override
-	public Optional<BankCustomer> getCustomer(long custId) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+	public Optional<BankCustomer> getCustomerById(String custId) {
+		Optional<BankCustomer> customer = customerRepository.findById(custId);
+		if(customer.isPresent()) {
+			return customer;
+		}
+		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer id " + custId + " does not exist");
 	}
 
 	@Override
-	public List<BankAccount> getCustomerAccounts(long custId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<BankAccount> getCustomerAccounts(String custId) {
+		BankCustomer customer = customerRepository.findById(custId)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer id " + custId + " does not exist"));
+
+		if(!"Y".equals(customer.isActive())) {
+			throw new ResponseStatusException(HttpStatus.CONFLICT, "Customer id " + custId + " is not active");
+		}
+
+		return bankAccountRepository.findByCustomerNumberAndIsActive(custId, true);
 	}
 
 	@Override
@@ -79,14 +94,38 @@ public class CustomerServiceImpl implements ICustomerService{
 		    if (!businessRule.isAlphaValid(newCustomer.getModifiedBy())) {
 		    	logg.error("ModifiedBy must contain letters only");
 		    }
-			return null;
+			return newCustomer;
 		}
 	}
 
 	@Override
-	public BankCustomer editCustomer(long existingCustId, BankCustomer updatingAccount) {
-		// TODO Auto-generated method stub
-		return null;
+	public BankCustomer editCustomer(String existingCustId, BankCustomer updatingAccount) {
+		BusinessRule businessRule = new BusinessRule();
+		BankCustomer existingCustomer = customerRepository.findById(existingCustId)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer id " + existingCustId + " does not exist"));
+
+		if(!isCustomerUpdateValid(updatingAccount, businessRule)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid or empty customer field/s");
+		}
+
+		boolean hasChanges = !Objects.equals(existingCustomer.getcFirstName(), updatingAccount.getcFirstName())
+				|| !Objects.equals(existingCustomer.getcLastName(), updatingAccount.getcLastName())
+				|| !Objects.equals(existingCustomer.getMobileNbr(), updatingAccount.getMobileNbr())
+				|| !Objects.equals(existingCustomer.getBirthday(), updatingAccount.getBirthday())
+				|| !Objects.equals(existingCustomer.getModifiedBy(), updatingAccount.getModifiedBy());
+
+		if(!hasChanges) {
+			throw new ResponseStatusException(HttpStatus.CONFLICT, "No changes detected. Information will not be saved.");
+		}
+
+		existingCustomer.setcFirstName(updatingAccount.getcFirstName());
+		existingCustomer.setcLastName(updatingAccount.getcLastName());
+		existingCustomer.setMobileNbr(updatingAccount.getMobileNbr());
+		existingCustomer.setBirthday(updatingAccount.getBirthday());
+		existingCustomer.setModifiedBy(updatingAccount.getModifiedBy());
+		existingCustomer.setDateLastUpdated(LocalDateTime.now());
+
+		return customerRepository.save(existingCustomer);
 	}
 
 	@Override
@@ -131,5 +170,14 @@ public class CustomerServiceImpl implements ICustomerService{
 //    public boolean isRequestValid(BankAccount acct) {
 //    	return false;
 //    }
+
+	private boolean isCustomerUpdateValid(BankCustomer customer, BusinessRule businessRule) {
+		return customer != null
+				&& businessRule.isAlphaValid(customer.getcFirstName())
+				&& businessRule.isAlphaValid(customer.getcLastName())
+				&& businessRule.isNumericValid(customer.getMobileNbr())
+				&& businessRule.isBirthDateValid(customer.getBirthday())
+				&& businessRule.isAlphaValid(customer.getModifiedBy());
+	}
 
 }
