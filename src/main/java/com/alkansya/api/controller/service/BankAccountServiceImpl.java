@@ -1,5 +1,6 @@
 package com.alkansya.api.controller.service;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -44,12 +45,26 @@ public class BankAccountServiceImpl implements IBankAccount {
 		}
 
 		newAccount.setAccountId(UUID.randomUUID().toString().replace("-", ""));
-		newAccount.setActive(true);
+		newAccount.setActive("Y");
 		return bankAccountRepository.save(newAccount);
 	}
 
 	@Override
-	public void deactivateAccount(String existingAccount) {
-		// TODO Auto-generated method stub
+	public BankAccount deactivateAccount(String existingAccount) {
+		BankAccount account = bankAccountRepository.findById(existingAccount)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Bank account id " + existingAccount + " does not exist"));
+
+		if(!"Y".equals(account.isActive())) {
+			throw new ResponseStatusException(HttpStatus.CONFLICT, "Bank account id " + existingAccount + " is already inactive");
+		}
+
+		if("CREDIT".equalsIgnoreCase(account.getAccountType())
+				&& account.getCreditBalance() != null
+				&& account.getCreditBalance().compareTo(BigDecimal.ZERO) != 0) {
+			throw new ResponseStatusException(HttpStatus.CONFLICT, "Credit account balance must be 0 before deactivating account");
+		}
+
+		account.setActive("N");
+		return bankAccountRepository.save(account);
 	}
 }

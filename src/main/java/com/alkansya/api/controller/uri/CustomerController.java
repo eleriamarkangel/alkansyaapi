@@ -46,6 +46,11 @@ public class CustomerController {
     public List<BankAccount> getCustomerAccounts(@PathVariable String custId) {
     	return custService.getCustomerAccounts(custId);
 	}
+
+    @PutMapping("/deactivateCustomer/{custId}")
+    public BankCustomer deactivateCustomer(@PathVariable String custId) {
+    	return custService.deactivateCustomer(custId);
+	}
     
 //    @GetMapping("/get/{accountId}")
 //    public Optional<BankAccount> getAccount(@PathVariable Long accountId) {

@@ -3,6 +3,9 @@ package com.alkansya.api.model;
 import java.time.LocalDateTime;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 
 @Entity
@@ -35,6 +38,7 @@ public class BankCustomer {
     private String modifiedBy;
 	
 	@Column(name = "is_active", nullable = false)
+	@JsonProperty("is_active")
     private String isActive;
 
 	public String getCustomerNumber() {
@@ -101,6 +105,7 @@ public class BankCustomer {
 		this.modifiedBy = modifiedBy;
 	}
 
+	@JsonProperty("is_active")
 	public String isActive() {
 		return isActive;
 	}

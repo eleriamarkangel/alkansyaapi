@@ -1,5 +1,6 @@
 package com.alkansya.api.controller.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -51,7 +52,7 @@ public class CustomerServiceImpl implements ICustomerService{
 			throw new ResponseStatusException(HttpStatus.CONFLICT, "Customer id " + custId + " is not active");
 		}
 
-		return bankAccountRepository.findByCustomerNumberAndIsActive(custId, true);
+		return bankAccountRepository.findByCustomerNumberAndIsActive(custId, "Y");
 	}
 
 	@Override
@@ -129,9 +130,31 @@ public class CustomerServiceImpl implements ICustomerService{
 	}
 
 	@Override
-	public BankCustomer deactivateCustomer(long existingCustId) {
-		// TODO Auto-generated method stub
-		return null;
+	public BankCustomer deactivateCustomer(String existingCustId) {
+		BankCustomer existingCustomer = customerRepository.findById(existingCustId)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer id " + existingCustId + " does not exist"));
+
+		if(!"Y".equals(existingCustomer.isActive())) {
+			throw new ResponseStatusException(HttpStatus.CONFLICT, "Customer id " + existingCustId + " is already inactive");
+		}
+
+		List<BankAccount> activeAccounts = bankAccountRepository.findByCustomerNumberAndIsActive(existingCustId, "Y");
+		boolean hasUnsettledCredit = activeAccounts.stream()
+				.anyMatch(account -> "CREDIT".equalsIgnoreCase(account.getAccountType())
+						&& account.getCreditBalance() != null
+						&& account.getCreditBalance().compareTo(BigDecimal.ZERO) != 0);
+
+		if(hasUnsettledCredit) {
+			throw new ResponseStatusException(HttpStatus.CONFLICT, "Credit account balance must be 0 before deactivating customer");
+		}
+
+		activeAccounts.forEach(account -> account.setActive("N"));
+		bankAccountRepository.saveAll(activeAccounts);
+
+		existingCustomer.setActive("N");
+		existingCustomer.setDateLastUpdated(LocalDateTime.now());
+
+		return customerRepository.save(existingCustomer);
 	}
 //    public Optional<BankAccount> getAccountById(Long accountId) {
 //    	logg.info("account id " + accountId);

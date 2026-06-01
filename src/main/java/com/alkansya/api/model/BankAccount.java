@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 
 //import jakarta.persistence.*;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 
 @Entity
@@ -38,7 +41,8 @@ public class BankAccount {
     private BigDecimal creditBalance;
 
 	@Column(name = "is_active", nullable = false)
-    private boolean isActive;
+	@JsonProperty("is_active")
+    private String isActive;
 	
 	public String getAccountId() {
 		return accountId;
@@ -90,11 +94,12 @@ public class BankAccount {
 	
 	
 
-	public boolean isActive() {
+	@JsonProperty("is_active")
+	public String isActive() {
 		return isActive;
 	}
 
-	public void setActive(boolean isActive) {
+	public void setActive(String isActive) {
 		this.isActive = isActive;
 	}
 
