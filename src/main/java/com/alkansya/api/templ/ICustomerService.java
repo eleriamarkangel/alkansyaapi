@@ -10,6 +10,6 @@ public interface ICustomerService {
     public List<BankAccount> getCustomerAccounts(String custId);
     public BankCustomer createCustomer(BankCustomer newAccount);
     public BankCustomer editCustomer(String existingCustId, BankCustomer updatingAccount);
-    public BankCustomer deactivateCustomer(long existingCustId);
+    public BankCustomer deactivateCustomer(String existingCustId);
 	public Optional<BankCustomer> getCustomerById(String custId);
 }

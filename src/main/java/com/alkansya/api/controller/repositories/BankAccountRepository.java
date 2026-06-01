@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.alkansya.api.model.BankAccount;
 
 public interface BankAccountRepository extends JpaRepository<BankAccount, String> {
-	List<BankAccount> findByCustomerNumberAndIsActive(String customerNumber, boolean isActive);
+	List<BankAccount> findByCustomerNumberAndIsActive(String customerNumber, String isActive);
 
 }
