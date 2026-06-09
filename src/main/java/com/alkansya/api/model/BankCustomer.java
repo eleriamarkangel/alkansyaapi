@@ -16,6 +16,9 @@ public class BankCustomer {
 	@Column(name = "customer_number", nullable = false)
     private String customerNumber;
 	
+	@Column(name = "bday", nullable = false)
+    private String birthday;
+	
 	@Column(name = "cst_firstname", nullable = false)
     private String cFirstName;
 	
@@ -25,21 +28,19 @@ public class BankCustomer {
 	@Column(name = "mobile_nbr", nullable = false)
     private String mobileNbr;
 	
-	@Column(name = "bday", nullable = false)
-    private String birthday;
-	
-	@Column(name = "date_created", nullable = false)
-    private LocalDateTime dateCreated;
-	
-	@Column(name = "date_last_updated", nullable = false)
-    private LocalDateTime dateLastUpdated;
-	
 	@Column(name = "modified_by", nullable = false)
     private String modifiedBy;
 	
 	@Column(name = "is_active", nullable = false)
 	@JsonProperty("is_active")
     private String isActive;
+	
+	@Column(name = "date_created", nullable = false)
+    private LocalDateTime dateCreated;
+	
+	@Column(name = "date_last_updated", nullable = false)
+    private LocalDateTime dateLastUpdated;
+
 
 	public String getCustomerNumber() {
 		return customerNumber;
