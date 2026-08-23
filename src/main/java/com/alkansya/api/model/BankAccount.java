@@ -1,6 +1,7 @@
 package com.alkansya.api.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 //import jakarta.persistence.*;
 import javax.persistence.*;
@@ -26,23 +27,44 @@ public class BankAccount {
     private String accountId;
 
     @Column(name = "account_type", nullable = false)
-    private String accountType = "SAVINGS";
+    private String accountType;
 
     @Column(name = "customer_number", nullable = false)
     private String customerNumber;
     
     @Column(name = "debit_balance", nullable = false)
     private BigDecimal debitBalance;
+
+    @Column(name = "debit_card_number", nullable = false)
+    private String debitCardNumber;
     
     @Column(name = "credit_limit", nullable = false)
     private Long creditLimit;
-    
+
     @Column(name = "credit_balance", nullable = false)
     private BigDecimal creditBalance;
+
+    @Column(name = "credit_card_number", nullable = false)
+    private String creditCardNumber;
+
+    @Column(name = "credit_score", nullable = false)
+    private BigDecimal creditScore;
+
+    @Column(name = "credit_points", nullable = false)
+    private BigDecimal creditPoints;
+    
+    @Column(name = "credit_statement_date", nullable = false)
+    private LocalDateTime creditStatementDate;
 
 	@Column(name = "is_active", nullable = false)
 	@JsonProperty("is_active")
     private String isActive;
+	
+	@Column(name = "date_created", nullable = false)
+    private LocalDateTime dateCreated;
+	
+	@Column(name = "date_last_updated", nullable = false)
+    private LocalDateTime dateLastUpdated;
 	
 	public String getAccountId() {
 		return accountId;
@@ -76,6 +98,14 @@ public class BankAccount {
 		this.debitBalance = debitBalance;
 	}
 
+	public String getDebitCardNumber() {
+		return debitCardNumber;
+	}
+
+	public void setDebitCardNumber(String debitCardNumber) {
+		this.debitCardNumber = debitCardNumber;
+	}
+
 	public Long getCreditLimit() {
 		return creditLimit;
 	}
@@ -91,8 +121,15 @@ public class BankAccount {
 	public void setCreditBalance(BigDecimal creditBalance) {
 		this.creditBalance = creditBalance;
 	}
-	
-	
+
+	public String getCreditCardNumber() {
+		return creditCardNumber;
+	}
+
+	public void setCreditCardNumber(String creditCardNumber) {
+		this.creditCardNumber = creditCardNumber;
+	}
+
 
 	@JsonProperty("is_active")
 	public String isActive() {

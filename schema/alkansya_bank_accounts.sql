@@ -29,8 +29,10 @@ CREATE TABLE `bank_accounts` (
   `account_type` varchar(45) NOT NULL,
   `customer_number` varchar(45) NOT NULL,
   `debit_balance` decimal(10,2) NOT NULL,
+  `debit_card_number` varchar(45) DEFAULT NULL,
   `credit_limit` bigint NOT NULL,
   `credit_balance` decimal(10,2) NOT NULL,
+  `credit_card_number` varchar(45) DEFAULT NULL,
   `is_active` tinyint(1) NOT NULL,
   PRIMARY KEY (`account_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

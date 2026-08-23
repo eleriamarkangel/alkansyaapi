@@ -156,43 +156,6 @@ public class CustomerServiceImpl implements ICustomerService{
 
 		return customerRepository.save(existingCustomer);
 	}
-//    public Optional<BankAccount> getAccountById(Long accountId) {
-//    	logg.info("account id " + accountId);
-//        return accountRepository.findById(accountId);
-//    }
-//    
-//    public List<BankAccount> getAccounts() {
-//    	logg.info("ALL accounts...");
-//        return accountRepository.findAll();
-//    }
-//
-//    public BankAccount createAccount(BankAccount account) {
-//    	logg.info("Creating account.."); 
-//    	if(isRequestValid(account)){
-//    		return accountRepository.save(account);
-//    	} else {
-//    		return null; // response
-//    	}
-//      return accountRepository.save(account);  // Saves the account to the database
-// Saves the account to the database
-//    }
-//
-//    public void deleteAccount(Long accountNumber) {
-//        accountRepository.deleteById(accountNumber);  // Deletes the account by ID
-//    }
-//    
-//    public ResponseEntity<String> returnResponseByRequestType(String requestType, int responseType) {
-//        if((requestType == "createAccount") && (responseType == 1)){
-//            return new ResponseEntity<>("Add order success!", HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>("Add order failed!", HttpStatus.BAD_REQUEST);
-//        }
-//
-//    }
-//    
-//    public boolean isRequestValid(BankAccount acct) {
-//    	return false;
-//    }
 
 	private boolean isCustomerUpdateValid(BankCustomer customer, BusinessRule businessRule) {
 		return customer != null

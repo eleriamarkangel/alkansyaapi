@@ -52,25 +52,4 @@ public class CustomerController {
     	return custService.deactivateCustomer(custId);
 	}
     
-//    @GetMapping("/get/{accountId}")
-//    public Optional<BankAccount> getAccount(@PathVariable Long accountId) {
-//		return custService.getAccountById(accountId);
-//    }
-//
-//    @GetMapping("/get/accounts")
-//    public List<BankAccount> getAccounts() {
-//		return custService.getAccounts();
-//    }
-//
-//    @PostMapping("/add")
-//    public BankAccount createAccount(@RequestBody BankAccount account) {
-//        return custService.createAccount(account);
-//    }
-//
-//    @DeleteMapping("/delete/{accountNum}")
-//    public void deleteAccount(@PathVariable Long accountNum) {
-//    	custService.deleteAccount(accountNum);
-//    }
-    
-    
 }
